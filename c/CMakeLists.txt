@@ -23,6 +23,7 @@ option(run_e2e_tests "set run_e2e_tests to ON to run e2e tests (default is OFF) 
 option(use_wsio "set use_wsio to ON if WebSockets is to be used, set to OFF to not use WebSockets" OFF)
 option(run_longhaul_tests "set run_longhaul_tests to ON to run longhaul tests (default is OFF)[if possible, they are always build]" OFF)
 option(skip_unittests "set skip_unittests to ON to skip unittests (default is OFF)[if possible, they are always build]" OFF)
+option(skip_samples_and_tools "set skip_samples_and_tools to ON to skip building samples and tools (default is OFF, samples and tests are built)" OFF)
 option(compileOption_C "passes a string to the command line of the C compiler" OFF)
 option(compileOption_CXX "passes a string to the command line of the C++ compiler" OFF)
 option(build_python "builds the Python native iothub_client module" OFF)
@@ -59,8 +60,12 @@ endif()
 
 
 add_subdirectory(azure-c-shared-utility)
-add_subdirectory(azure-uamqp-c)
-add_subdirectory(azure-umqtt-c)
+if("${use_amqp}")
+    add_subdirectory(azure-uamqp-c)
+endif()
+if("${use_amqp}")
+    add_subdirectory(azure-umqtt-c)
+endif()
 
 enable_testing()
 
@@ -173,5 +178,3 @@ endif()
 if("${build_javawrapper}" STREQUAL "ON")	
      add_subdirectory(../javawrapper/device/iothub_client_javawrapper javawrapper)
 endif()
-
-
