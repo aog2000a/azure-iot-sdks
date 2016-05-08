@@ -115,6 +115,11 @@ if(${use_http})
 		${iothub_client_http_transport_h_files}
 	)
 	linkSharedUtil(iothub_client_http_transport)
+
+	if(WIN32)
+	else()
+		install (TARGETS iothub_client_http_transport DESTINATION ${LIB_INSTALL_DIR})
+	endif (WIN32)
 endif()
 
 if(${use_amqp})
@@ -124,6 +129,11 @@ if(${use_amqp})
 		${iothub_client_amqp_transport_h_files}
 	)
 	linkSharedUtil(iothub_client_amqp_transport)
+
+	if(WIN32)
+	else()
+		install (TARGETS iothub_client_ampq_transport DESTINATION ${LIB_INSTALL_DIR})
+	endif (WIN32)
 endif()
 
 if(${use_mqtt})
@@ -134,6 +144,11 @@ if(${use_mqtt})
 	)
 	linkSharedUtil(iothub_client_mqtt_transport)
 	linkMqttLibrary(iothub_client_mqtt_transport)
+
+	if(WIN32)
+	else()
+		install (TARGETS iothub_client_mqtt_transport DESTINATION ${LIB_INSTALL_DIR})
+	endif (WIN32)
 endif()
 
 include_directories(${IOTHUB_CLIENT_INC_FOLDER})
@@ -158,3 +173,10 @@ if(NOT IN_OPENWRT)
 # Disable tests for OpenWRT
 add_subdirectory(tests)
 endif()
+
+if(WIN32)
+else()
+	install (TARGETS iothub_client DESTINATION ${LIB_INSTALL_DIR})
+	install (FILES ${iothub_client_h_files}
+		DESTINATION ${INCLUDE_INSTALL_DIR}/iothub_client)
+endif (WIN32)

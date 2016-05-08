@@ -70,3 +70,10 @@ if(NOT IN_OPENWRT)
 # Disable tests and samples for OpenWRT
 add_subdirectory(tests)
 endif()
+
+if(WIN32)
+else()
+	install (TARGETS serializer DESTINATION ${LIB_INSTALL_DIR})
+	install (FILES ${serializer_h_files}
+		DESTINATION ${INCLUDE_INSTALL_DIR}/serializer)
+endif (WIN32)
